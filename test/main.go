@@ -34,6 +34,7 @@ func main() {
 		cookie, err := ctx.Cookie(cookieName)
 		if err == nil && hmac.Equal([]byte(cookie), []byte(cookieValue)) {
 			basiclogin.ScriptRedirect(ctx, 400, "/")
+			ctx.Abort()
 		}
 	})
 
