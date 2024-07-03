@@ -2,7 +2,7 @@
 
 为Cookie设计的轻量级登录框架，兼容chrome 、firefox浏览器，暂未测试safari浏览器。  
 
-Lightweight login framework designed for cookies, compatible with chrome, firefox, not tested safari.  
+Lightweight login framework designed for cookie, compatible with chrome, firefox, not tested safari.  
 
 Reference https://developer.mozilla.org/docs/Web/HTTP/Authentication
 
@@ -25,3 +25,6 @@ basiclogin.New(loginGroup, func(ctx *gin.Context, username, password string, sec
     ctx.Status(401)
 })
 ```
+
+## License
+[BSD-3-clause license](LICENSE.txt)  
