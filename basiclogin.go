@@ -79,7 +79,7 @@ func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string
 
 		username, password, ok := ctx.Request.BasicAuth()
 		if !ok {
-			ctx.Header("WWW-Authenticate", `Basic realm=`+param+`, charset="UTF-8"`)
+			ctx.Header("WWW-Authenticate", `Basic realm=`+ctx.Request.URL.Path+`, charset="UTF-8"`)
 			ctx.Status(401)
 			return
 		}
