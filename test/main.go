@@ -16,12 +16,16 @@ const cookieValue = "123456"
 
 func main() {
 	Router := gin.New()
+	Router.Use(func(ctx *gin.Context) {
+		ctx.Header("Cache-Control", "no-cache")
+		ctx.Header("Referrer-Policy", "no-referrer")
+	})
 
 	// web
 	Router.GET("/", func(ctx *gin.Context) {
 		cookie, err := ctx.Cookie(cookieName)
 		if err != nil || !hmac.Equal([]byte(cookie), []byte(cookieValue)) {
-			basiclogin.ScriptRedirect(ctx, 400, "/login/")
+			basiclogin.ScriptRedirect(ctx, 401, "/login/")
 			return
 		}
 		ctx.File("index.html")
@@ -33,7 +37,7 @@ func main() {
 	loginGroup.Use(func(ctx *gin.Context) {
 		cookie, err := ctx.Cookie(cookieName)
 		if err == nil && hmac.Equal([]byte(cookie), []byte(cookieValue)) {
-			basiclogin.ScriptRedirect(ctx, 400, "/")
+			basiclogin.ScriptRedirect(ctx, 401, "/")
 			ctx.Abort()
 		}
 	})
@@ -43,7 +47,8 @@ func main() {
 		//   ctx.Writer.Header().Add("Set-Cookie", cookie.String())
 		if username == staticUserName && hmac.Equal([]byte(password), []byte(StaticPassword)) {
 			ctx.SetCookie(cookieName, cookieValue, 0, "/", "", secure, true)
-			basiclogin.ScriptRedirect(ctx, 200, "/")
+			ctx.Header("Referrer-Policy", "no-referrer")
+			basiclogin.ScriptRedirect(ctx, 401, "/")
 			return
 		}
 		ctx.Status(401)

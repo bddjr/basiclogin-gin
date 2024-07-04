@@ -20,7 +20,7 @@ func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string
 	const cookieName = "BasicLoginTime"
 
 	redirect := func(ctx *gin.Context) {
-		ScriptRedirect(ctx, 400, group.BasePath()+"/"+strconv.FormatInt(time.Now().UnixMilli(), timeBase)+"/")
+		ScriptRedirect(ctx, 401, group.BasePath()+"/"+strconv.FormatInt(time.Now().UnixMilli(), timeBase))
 	}
 
 	group.Use(func(ctx *gin.Context) {
@@ -29,7 +29,7 @@ func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string
 
 	group.GET("/", redirect)
 
-	group.GET("/:t/", func(ctx *gin.Context) {
+	group.GET("/:t", func(ctx *gin.Context) {
 		param := ctx.Param("t")
 
 		// 如果上次登录的时候用过这个时间戳，重新生成网址。
@@ -79,7 +79,7 @@ func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string
 
 		username, password, ok := ctx.Request.BasicAuth()
 		if !ok {
-			ctx.Header("WWW-Authenticate", `Basic realm=`+ctx.Request.URL.Path+`, charset="UTF-8"`)
+			ctx.Header("WWW-Authenticate", `Basic realm=`+param+`, charset="UTF-8"`)
 			ctx.Status(401)
 			return
 		}
