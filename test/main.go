@@ -39,6 +39,10 @@ func main() {
 	})
 
 	basiclogin.New(loginGroup, func(ctx *gin.Context, username, password string, secure bool) {
+		// !!!
+		// If you need *http.Cookie, don't use ctx.Header("Set-Cookie", cookie.String())
+		// Please use ctx.Writer.Header().Add("Set-Cookie", cookie.String())
+		// !!!
 		if username == staticUserName && hmac.Equal([]byte(password), []byte(StaticPassword)) {
 			ctx.SetCookie(cookieName, cookieValue, 0, "/", "", secure, true)
 			basiclogin.ScriptRedirect(ctx, 200, "/")
