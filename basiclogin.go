@@ -12,6 +12,9 @@ func ScriptRedirect(ctx *gin.Context, code int, path string) {
 	ctx.Data(code, "text/html; charset=utf-8", []byte(`<script>location.replace(`+strconv.Quote(path)+`)</script>`))
 }
 
+// ⚠ If you need *http.Cookie, please use
+//
+//	ctx.Writer.Header().Add("Set-Cookie", cookie.String())
 func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string, password string, secure bool)) {
 	const timeBase = 36
 	const cookieName = "BasicLoginTime"
