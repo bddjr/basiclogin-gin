@@ -25,7 +25,7 @@ basiclogin.New(loginGroup, func(ctx *gin.Context, username, password string, sec
         basiclogin.ScriptRedirect(ctx, 401, "/")
         return
     }
-    ctx.Status(401)
+	ctx.String(401, "Wrong usename or password")
 })
 ```
 
