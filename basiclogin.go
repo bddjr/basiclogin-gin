@@ -9,7 +9,7 @@ import (
 )
 
 func ScriptRedirect(ctx *gin.Context, code int, path string) {
-	ctx.Data(code, "text/html; charset=utf-8", []byte(`<script>location.replace(`+strconv.Quote(path)+`)</script>`))
+	ctx.Data(code, "text/html; charset=utf-8", []byte(`<script>location.replace(`+strconv.Quote(path)+`+location.search+location.hash)</script>`))
 }
 
 // ⚠ If you need *http.Cookie, please use
