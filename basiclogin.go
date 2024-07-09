@@ -12,6 +12,10 @@ func ScriptRedirect(ctx *gin.Context, code int, path string) {
 	ctx.Data(code, "text/html; charset=utf-8", []byte(`<script>location.replace(`+strconv.Quote(path)+`+location.hash)</script>`))
 }
 
+func ScriptRedirectWithQuery(ctx *gin.Context, code int, path string) {
+	ctx.Data(code, "text/html; charset=utf-8", []byte(`<script>location.replace(`+strconv.Quote(path)+`+location.search+location.hash)</script>`))
+}
+
 // ⚠ If you need *http.Cookie, please use
 //
 //	ctx.Writer.Header().Add("Set-Cookie", cookie.String())
@@ -20,7 +24,7 @@ func New(group *gin.RouterGroup, callBack func(ctx *gin.Context, username string
 	const cookieName = "BasicLoginTime"
 
 	redirect := func(ctx *gin.Context) {
-		ScriptRedirect(ctx, 401, group.BasePath()+"/"+strconv.FormatInt(time.Now().UnixMilli(), timeBase)+"/")
+		ScriptRedirectWithQuery(ctx, 401, group.BasePath()+"/"+strconv.FormatInt(time.Now().UnixMilli(), timeBase)+"/")
 	}
 
 	group.Use(func(ctx *gin.Context) {
