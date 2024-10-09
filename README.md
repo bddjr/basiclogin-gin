@@ -1,3 +1,8 @@
+# Warning
+不建议使用，它不能记住密码。而且它会导致Firefox在不关闭浏览器的情况下无法安全退出登录。  
+
+It is not recommended to use it, as it does not remember passwords and it can cause Firefox to be unable to securely log out without closing the browser.
+
 # basiclogin-gin
 
 为Cookie设计的轻量级登录框架，兼容chrome 、firefox浏览器，暂未测试safari浏览器。  
